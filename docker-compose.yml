@@ -1,0 +1,24 @@
+version: "2"
+
+services:
+  phpserver:
+    build:
+      context: ./.docker/php-apache/
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    networks:
+      - webserver
+    volumes:
+      - ./www:/var/www/html
+
+  mysql:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    networks:
+      - webserver
+networks:
+  webserver:
+    driver: bridge
